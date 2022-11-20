@@ -5,7 +5,7 @@ import SortModal from "./modals/SortModal";
 import ViewModal from "./modals/ViewModal";
 import { useState } from "react";
 
-const TopMenu = () => {
+const TopMenu = ({sort, setSort}) => {
   const [sortModal, setSortModal] = useState(false);
   const [viewModal, setViewModal] = useState(false);
 
@@ -21,7 +21,7 @@ const TopMenu = () => {
                 onPress={() => setViewModal(!viewModal)} 
                 name={viewModal ? "view-grid" : "view-grid-outline"}
             />
-            <SortModal visible={sortModal} setSortModal={setSortModal}/>
+            <SortModal visible={sortModal} setSortModal={setSortModal} sort={sort} setSort={setSort}/>
             <ViewModal visible={viewModal} setViewModal={setViewModal}/>
         </View>
     </View>

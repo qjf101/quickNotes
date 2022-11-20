@@ -3,9 +3,8 @@ import { View, Text, Modal, StyleSheet, TouchableOpacity, Pressable } from "reac
 import { FontAwesome } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
-function SortModal({visible, setSortModal}) {
+function SortModal({visible, setSortModal, sort, setSort}) {
   const listItems = ['Modified Time', 'Created Time', 'Alphabetically'];
-  const [selectedItem, setSelectedItem] = useState(0);
 
   const ListItem = ({text, onPress, selected}) => {
     return (
@@ -15,9 +14,14 @@ function SortModal({visible, setSortModal}) {
       </Pressable>
     )
   };
+  
+  const selectSortOption = (i) => {
+    setSort(listItems[i]);
+    setSortModal(!visible);
+  };
 
   return (
-    <Modal visible={visible} transparent={true} statusBarTranslucent>
+    <Modal animationType="fade" visible={visible} transparent={true} statusBarTranslucent>
       <TouchableOpacity onPress={()=>setSortModal(!visible)} style={styles.overLayContainer} activeOpacity={1}>
         <TouchableOpacity activeOpacity={1} style={styles.modalContent}>
           <View style={styles.titleContainer}>
@@ -27,7 +31,7 @@ function SortModal({visible, setSortModal}) {
           {
             listItems.map((item, i) => {
               return (
-                <ListItem key={i} text={item} onPress={()=>setSelectedItem(i)} selected={selectedItem == i}/>
+                <ListItem key={i} text={item} onPress={()=>selectSortOption(i)} selected={listItems[i] == sort}/>
               )
             })
           }

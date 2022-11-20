@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import TopMenu from "../components/TopMenu";
 import NotesContainer from "../components/NotesContainer";
 import * as SQLite from 'expo-sqlite';
+import dayjs from "dayjs";
 
 const Home = () => {
 
@@ -25,16 +26,23 @@ const Home = () => {
 
   const [forceUpdate, forceUpdateId] = useForceUpdate();
   const [notes, setNotes] = useState(null);
+  const [sort, setSort] = useState('Modified Time');
+
+  const sortOptions = {
+    'Modified Time': 'modified DESC',
+    'Created Time': 'created DESC',
+    'Alphabetically': 'title ASC' 
+  };
 
   useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
-        `select * from notes;`,
+        `select * from notes ORDER BY ${sortOptions[sort]};`,
         [],
         (_, { rows: { _array } }) => setNotes(_array)
       );
     });
-  }, [forceUpdateId]);
+  }, [sort, forceUpdateId]);
 
   useEffect(() => {
     console.log(notes)
@@ -48,7 +56,7 @@ const Home = () => {
     });
   }, []);
 
-  const add = (title, body, created, modified) => {
+  const add = (title, body, date) => {
     // is title empty?
     if (title === null || title === "") {
       return false;
@@ -56,7 +64,7 @@ const Home = () => {
 
     db.transaction(
       (tx) => {
-        tx.executeSql("insert into notes (title, body, created, modified) values (?,?,?,?)", [title, body, created, modified]);
+        tx.executeSql("insert into notes (title, body, created, modified) values (?,?,?,?)", [title, body, date, date]);
         tx.executeSql("select * from notes", [], (_, { rows }) =>
           console.log(JSON.stringify(rows))
         );
@@ -68,9 +76,9 @@ const Home = () => {
 
   return (
       <View style={styles.home}>
-          <TopMenu/>
+          <TopMenu sort={sort} setSort={setSort}/>
           <NotesContainer notes={notes}/>
-          <Button onPress={()=>add('Things to buy', 'some stuff', 'Nov 18', 'Nov 20')} title="Add Note"></Button>
+          <Button onPress={()=>add('A noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA note', 'some stuff', dayjs('2019-11-18T10:07:35-05:00').format())} title="Add Note"></Button>
       </View>
   )
 }
