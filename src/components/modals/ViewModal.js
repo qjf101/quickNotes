@@ -1,11 +1,9 @@
-import { useState } from "react";
 import { View, Text, Modal, StyleSheet, TouchableOpacity, Pressable } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-function ViewModal({visible, setViewModal}) {
+function ViewModal({visible, setViewModal, view, setView}) {
   const listItems = ['List', 'Grid',];
-  const [selectedItem, setSelectedItem] = useState(0);
-
+  
   const ListItem = ({text, onPress, selected, icon}) => {
     return (
       <Pressable onPress={onPress} style={[styles.listItem, {backgroundColor: selected ? 'pink' : 'white'}]}>
@@ -15,8 +13,13 @@ function ViewModal({visible, setViewModal}) {
     )
   };
 
+  const selectViewOption = (i) => {
+    setView(listItems[i]);
+    setViewModal(!visible);
+  };
+
   return (
-    <Modal visible={visible} transparent={true} statusBarTranslucent>
+    <Modal animationType="fade" visible={visible} transparent={true} statusBarTranslucent>
       <TouchableOpacity onPress={()=>setViewModal(!visible)} style={styles.overLayContainer} activeOpacity={1}>
         <TouchableOpacity activeOpacity={1} style={styles.modalContent}>
           <View style={styles.titleContainer}>
@@ -27,7 +30,7 @@ function ViewModal({visible, setViewModal}) {
           {
             listItems.map((item, i) => {
               return (
-                <ListItem key={i} text={item} onPress={()=>setSelectedItem(i)} selected={selectedItem == i} icon={i == 0 ? 'view-list' : 'view-grid'}/>
+                <ListItem key={i} text={item} onPress={()=>selectViewOption(i)} selected={listItems[i] == view} icon={i == 0 ? 'view-list' : 'view-grid'}/>
               )
             })
           }

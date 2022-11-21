@@ -27,6 +27,11 @@ const Home = () => {
   const [forceUpdate, forceUpdateId] = useForceUpdate();
   const [notes, setNotes] = useState(null);
   const [sort, setSort] = useState('Modified Time');
+  const [view, setView] = useState('List');
+
+  useEffect(() => {
+    console.log(view)
+  }, [view])
 
   const sortOptions = {
     'Modified Time': 'modified DESC',
@@ -76,9 +81,9 @@ const Home = () => {
 
   return (
       <View style={styles.home}>
-          <TopMenu sort={sort} setSort={setSort}/>
-          <NotesContainer notes={notes}/>
-          <Button onPress={()=>add('A noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA note', 'some stuff', dayjs('2019-11-18T10:07:35-05:00').format())} title="Add Note"></Button>
+          <TopMenu sort={sort} setSort={setSort} view={view} setView={setView}/>
+          <NotesContainer notes={notes} view={view}/>
+          {/* <Button onPress={()=>add('A noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA note', 'some stuff', dayjs('2019-11-18T10:07:35-05:00').format())} title="Add Note"></Button> */}
       </View>
   )
 }
@@ -92,7 +97,7 @@ export default Home;
 
 const styles = StyleSheet.create({
     home: {
-      backgroundColor: 'pink',
+      backgroundColor: 'white',
       height: '100%',
       width: '100%'
     }

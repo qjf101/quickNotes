@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { View, Text, Modal, StyleSheet, TouchableOpacity, Pressable } from "react-native";
 import { FontAwesome } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
