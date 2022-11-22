@@ -1,6 +1,7 @@
 import SearchBar from "../components/SearchBar";
 import NotesContainer from "../components/NotesContainer";
 import { useEffect, useState } from "react";
+import { BackHandler } from "react-native";
 
 const Search = ({notes, setTab}) => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -27,6 +28,20 @@ const Search = ({notes, setTab}) => {
     setNoResults(!notesArr.length);
     setReturnedNotes(notesArr);
   }, [searchTerm])
+
+  useEffect(() => {
+    const backAction = () => {
+      setTab('blank')
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <>
