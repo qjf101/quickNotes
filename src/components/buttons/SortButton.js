@@ -1,10 +1,10 @@
 import { Pressable } from "react-native";
-import { FontAwesome } from '@expo/vector-icons';
+import SortIcon from "../icons/SortIcon";
 
-function SortButton({ onPress, name }) {
+function SortButton({ onPress, color }) {
   return (
-    <Pressable onPress={onPress}>
-      <FontAwesome name={name} size={30} />
+    <Pressable onPress={onPress} >
+      <SortIcon color={color}/>
     </Pressable>
   );
 }

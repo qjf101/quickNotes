@@ -15,11 +15,11 @@ const TopMenu = ({sort, setSort, view, setView}) => {
         <View style={styles.buttonContainer}>
             <SortButton 
                 onPress={() => setSortModal(!sortModal)} 
-                name={sortModal ? "sort" : "sort"}
+                color={sortModal ? "red" : "grey"}
             />
             <ViewButton 
                 onPress={() => setViewModal(!viewModal)} 
-                name={viewModal ? "view-grid" : "view-grid-outline"}
+                color={viewModal ? "red" : "grey"}
             />
             <SortModal visible={sortModal} setSortModal={setSortModal} sort={sort} setSort={setSort}/>
             <ViewModal visible={viewModal} setViewModal={setViewModal} view={view} setView={setView}/>

@@ -1,10 +1,10 @@
 import { Pressable } from "react-native";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
-function ViewButton({ onPress, name }) {
+function ViewButton({ onPress, color }) {
   return (
     <Pressable onPress={onPress}>
-      <MaterialCommunityIcons name={name} size={30} />
+      <Ionicons name="ios-grid-outline" size={28} color={color} />
     </Pressable>
   );
 }
