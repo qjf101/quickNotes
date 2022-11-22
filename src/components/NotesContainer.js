@@ -1,12 +1,17 @@
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View, Text } from "react-native";
 import Note from "./Note";
 
-const NotesContainer = ({notes, view}) => {
+const NotesContainer = ({notes, view, noResults}) => {
     return (
-        <View style={{height: '85%', backgroundColor: 'teal'}}>
+        <View style={{height: '85%'}}>
+            { noResults ?
+            <View style={styles.noResults}>
+                <Text style={styles.noResultsText}>No results found</Text>
+            </View>
+            :
             <ScrollView style={styles.container} 
             contentContainerStyle={styles.content}
-            >
+            >   
                 <View style={view == 'Grid' ? styles.innerContainer : {}}>
                 { notes ?
                     notes.map((note, i) => {
@@ -19,6 +24,7 @@ const NotesContainer = ({notes, view}) => {
                 }
                 </View>
             </ScrollView>
+            }
         </View>
     )
 }
@@ -42,5 +48,13 @@ const styles = StyleSheet.create({
       flexDirection: 'row', 
       flexWrap: 'wrap', 
       justifyContent: 'space-between'
+    },
+    noResults: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100%'
+    },
+    noResultsText: {
+        fontSize: 22
     }
 });

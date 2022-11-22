@@ -1,9 +1,7 @@
-import { View, StyleSheet, Text, TextInput } from "react-native";
-import { useState } from "react";
+import { View, StyleSheet, TextInput } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 
-const SearchBar = ({setTab}) => {
-  const [searchTerm, setSearchTerm] = useState('');
+const SearchBar = ({setTab, searchTerm, setSearchTerm}) => {
   return (
     <View style={styles.container}>
         <Ionicons name="ios-arrow-back-sharp" size={26} color="black" onPress={()=>setTab('blank')}/>

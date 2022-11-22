@@ -1,12 +1,37 @@
 import SearchBar from "../components/SearchBar";
 import NotesContainer from "../components/NotesContainer";
+import { useEffect, useState } from "react";
 
 const Search = ({notes, setTab}) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [returnedNotes, setReturnedNotes] = useState([]);
+  const [noResults, setNoResults] = useState(false);
+
+  useEffect(() => {
+    if (!searchTerm) {
+      setReturnedNotes([])
+      setNoResults(false);
+      return;
+    };
+    console.log(searchTerm)
+    let notesArr = [];
+    notes.map((n) => {
+      const title = n.title.toLowerCase();
+      const body = n.body.toLowerCase();
+      const search = searchTerm.toLowerCase();
+      if (title.includes(search) || body.includes(search)){
+        notesArr.push(n);
+      } 
+    });
+
+    setNoResults(!notesArr.length);
+    setReturnedNotes(notesArr);
+  }, [searchTerm])
 
   return (
     <>
-        <SearchBar setTab={setTab}/>
-        <NotesContainer notes={notes} view={'List'}/>
+        <SearchBar setTab={setTab} searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
+        <NotesContainer notes={returnedNotes} view={'List'} noResults={noResults}/>
     </>
   );
 }
