@@ -4,6 +4,8 @@ import TopMenu from "../components/TopMenu";
 import NotesContainer from "../components/NotesContainer";
 import * as SQLite from 'expo-sqlite';
 import dayjs from "dayjs";
+import { TabBar } from "../components/TabBar";
+import Search from "./Search";
 
 const Home = () => {
 
@@ -28,6 +30,7 @@ const Home = () => {
   const [notes, setNotes] = useState(null);
   const [sort, setSort] = useState('Modified Time');
   const [view, setView] = useState('List');
+  const [tab, setTab] = useState('blank');
 
   useEffect(() => {
     console.log(view)
@@ -79,10 +82,21 @@ const Home = () => {
     );
   };
 
+  useEffect(() => {
+    console.log(tab)
+  }, [tab])
+
   return (
       <View style={styles.home}>
+          { tab == 'search' ?
+          <Search notes={notes} setTab={setTab}/>
+          :
+          <>
           <TopMenu sort={sort} setSort={setSort} view={view} setView={setView}/>
           <NotesContainer notes={notes} view={view}/>
+          </>  
+          }
+          <TabBar tab={tab} setTab={setTab}/>
           {/* <Button onPress={()=>add('A noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA note', 'some stuff', dayjs('2019-11-18T10:07:35-05:00').format())} title="Add Note"></Button> */}
       </View>
   )

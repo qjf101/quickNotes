@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     },
     logo: {
         fontSize: 24,
-        color: 'blue'
+        color: 'red'
     },
     buttonContainer: {
         flexDirection: 'row',
