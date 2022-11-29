@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import TopMenu from "../components/TopMenu";
 import NotesContainer from "../components/NotesContainer";
 import * as SQLite from 'expo-sqlite';
-import dayjs from "dayjs";
 import { TabBar } from "../components/TabBar";
 import Search from "./Search";
+import EditNote from "./EditNote";
 
 const Home = () => {
 
@@ -28,13 +28,10 @@ const Home = () => {
 
   const [forceUpdate, forceUpdateId] = useForceUpdate();
   const [notes, setNotes] = useState(null);
+  const [selectedNote, setSelectedNote] = useState(null);
   const [sort, setSort] = useState('Modified Time');
   const [view, setView] = useState('List');
   const [tab, setTab] = useState('blank');
-
-  useEffect(() => {
-    console.log(view)
-  }, [view])
 
   const sortOptions = {
     'Modified Time': 'modified DESC',
@@ -53,10 +50,6 @@ const Home = () => {
   }, [sort, forceUpdateId]);
 
   useEffect(() => {
-    console.log(notes)
-  }, [notes])
-
-  useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
         "create table if not exists notes (id integer primary key not null, title text, body text, created text, modified text);"
@@ -64,9 +57,9 @@ const Home = () => {
     });
   }, []);
 
-  const add = (title, body, date) => {
+  const create = (title, body, date) => {
     // is title empty?
-    if (title === null || title === "") {
+    if (!title) {
       return false;
     }
 
@@ -82,22 +75,47 @@ const Home = () => {
     );
   };
 
-  useEffect(() => {
-    console.log(tab)
-  }, [tab])
+  const update = (title, body, date, id) => {
+    if (title === null || title === "") {
+      return false;
+    }
+    
+    db.transaction(
+      tx => {
+          tx.executeSql("UPDATE notes SET title=?, body=?, modified=? WHERE id=?", [title, body, date, id],
+              (txObj, resultSet) => console.log('db data res ------>', resultSet),
+              (txObj, error) => console.log('Error insert', error));
+          forceUpdate();
+    });
+  };
+
+  const deleteNote = (id) => {
+    db.transaction(
+      tx => {
+          tx.executeSql("DELETE from notes WHERE id=?", [id],
+              (txObj, resultSet) => console.log('db data res ------>', resultSet),
+              (txObj, error) => console.log('Error delete', error));
+          forceUpdate();
+    });
+  };
 
   return (
       <View style={styles.home}>
-          { tab == 'search' ?
-          <Search notes={notes} setTab={setTab}/>
-          :
-          <>
-          <TopMenu sort={sort} setSort={setSort} view={view} setView={setView}/>
-          <NotesContainer notes={notes} view={view}/>
-          </>  
+          { selectedNote ?
+            <EditNote selectedNote={selectedNote} setSelectedNote={setSelectedNote} create={create} update={update} deleteNote={deleteNote}/>
+            :
+            <>
+              { tab == 'search' ?
+                <Search notes={notes} setTab={setTab}/>
+              :
+                <>
+                  <TopMenu sort={sort} setSort={setSort} view={view} setView={setView}/>
+                  <NotesContainer notes={notes} view={view} setSelectedNote={setSelectedNote}/>
+                </>  
+              }
+              <TabBar tab={tab} setTab={setTab} setSelectedNote={setSelectedNote}/>
+            </>
           }
-          <TabBar tab={tab} setTab={setTab}/>
-          {/* <Button onPress={()=>add('A noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA noteA note', 'some stuff', dayjs('2019-11-18T10:07:35-05:00').format())} title="Add Note"></Button> */}
       </View>
   )
 }

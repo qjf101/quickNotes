@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, View, Text } from "react-native";
 import Note from "./Note";
 
-const NotesContainer = ({notes, view, noResults}) => {
+const NotesContainer = ({notes, view, noResults, setSelectedNote}) => {
     return (
         <View style={{height: '85%'}}>
             { noResults ?
@@ -16,7 +16,7 @@ const NotesContainer = ({notes, view, noResults}) => {
                 { notes ?
                     notes.map((note, i) => {
                         return (
-                            <Note key={i} noteContent={note} view={view}/>
+                            <Note key={i} noteContent={note} view={view} onPress={()=>setSelectedNote(note)}/>
                         )
                     })
                     :

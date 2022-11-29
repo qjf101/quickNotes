@@ -10,7 +10,7 @@ import { CurvedBottomBar } from 'react-native-curved-bottom-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 
-export const TabBar = ({tab, setTab}) => {
+export const TabBar = ({tab, setTab, setSelectedNote}) => {
     const _renderIcon = (routeName, selectedTab) => {
         let icon = '';
         let size;
@@ -90,7 +90,7 @@ export const TabBar = ({tab, setTab}) => {
                                     alignItems: 'center',
                                     width: '120%'
                                 }}
-                                onPress={() => Alert.alert('Add Note')}>
+                                onPress={() => setSelectedNote({})}>
                                 <Ionicons name={'ios-add-sharp'} color="gray" size={25} />
                             </TouchableOpacity>
                         </Animated.View>
