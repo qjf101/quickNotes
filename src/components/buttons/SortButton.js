@@ -1,10 +1,10 @@
 import { Pressable } from "react-native";
-import SortIcon from "../icons/SortIcon";
+import { Ionicons } from '@expo/vector-icons';
 
 function SortButton({ onPress, color }) {
   return (
     <Pressable onPress={onPress} >
-      <SortIcon color={color}/>
+      <Ionicons name="ios-swap-vertical-outline" size={28} color={color} />
     </Pressable>
   );
 }
