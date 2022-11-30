@@ -91,7 +91,7 @@ export const TabBar = ({tab, setTab, setSelectedNote}) => {
                                     width: '120%'
                                 }}
                                 onPress={() => setSelectedNote({})}>
-                                <Ionicons name={'ios-add-sharp'} color="gray" size={25} />
+                                <Ionicons name={'ios-add-sharp'} color="white" size={26} />
                             </TouchableOpacity>
                         </Animated.View>
                     )}
@@ -130,7 +130,7 @@ export const styles = StyleSheet.create({
         borderRadius: 35,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'white',
+        backgroundColor: 'red',
         padding: 10,
         shadowColor: '#000',
         shadowOffset: {
