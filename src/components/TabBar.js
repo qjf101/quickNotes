@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    Alert,
     Animated,
     StyleSheet,
     TouchableOpacity,
