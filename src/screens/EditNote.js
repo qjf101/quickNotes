@@ -1,8 +1,10 @@
-import { View, Text, TextInput, StyleSheet, Keyboard } from "react-native";
+import { View, Text, TextInput, StyleSheet, Keyboard, Alert } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { useState } from "react";
 import dayjs from "dayjs";
 import DeleteNoteModal from "../components/modals/DeleteNoteModal";
+import * as FileSystem from 'expo-file-system';
+import { StorageAccessFramework } from 'expo-file-system';
 
 function EditNote({selectedNote, setSelectedNote, create, update, deleteNote}) {
   const {id} = selectedNote;
@@ -22,12 +24,38 @@ function EditNote({selectedNote, setSelectedNote, create, update, deleteNote}) {
     } else {
       create(title, body, date)
     }
-  }
+  };
+
+  const exportFile = async () => {
+    if (!title) return Alert.alert(
+      "Title is blank",
+      "Add a title to save this note",
+      [
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ]
+    );
+    const permissions = await StorageAccessFramework.requestDirectoryPermissionsAsync();
+    if (!permissions.granted) {
+        return;
+    }
+
+    try {
+        await StorageAccessFramework.createFileAsync(permissions.directoryUri, title, 'text/plain')
+            .then(async(uri) => {
+                await FileSystem.writeAsStringAsync(uri, `${title} \n\n${body}`, { encoding: FileSystem.EncodingType.UTF8 });
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+    } catch (e) {
+        throw new Error(e);
+    }
+  };
 
   const handleDelete = () => {
     deleteNote(id)
     setSelectedNote(null)
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -38,7 +66,7 @@ function EditNote({selectedNote, setSelectedNote, create, update, deleteNote}) {
         <Ionicons name="ios-arrow-back-sharp" size={26} color="red" onPress={()=>setSelectedNote(null)}/>
         }
         <View style={styles.buttonContainer}>
-          <Ionicons name="ios-share-outline" size={26} color="red" />
+          <Ionicons name="ios-share-outline" size={26} color="red" onPress={exportFile}/>
           {/* <Ionicons name="ios-ellipsis-horizontal-sharp" size={24} color="red" /> */}
           <Ionicons name="ios-trash-outline" size={26} color="red" onPress={()=>setDeleteModal(!deleteModal)}/>
         </View>
