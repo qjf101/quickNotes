@@ -1,6 +1,6 @@
-import { View, Text, TextInput, StyleSheet, Keyboard, Alert } from "react-native";
+import { View, Text, TextInput, StyleSheet, Keyboard, Alert, BackHandler } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import DeleteNoteModal from "../components/modals/DeleteNoteModal";
 import * as FileSystem from 'expo-file-system';
@@ -56,6 +56,20 @@ function EditNote({selectedNote, setSelectedNote, create, update, deleteNote}) {
     deleteNote(id)
     setSelectedNote(null)
   };
+
+  useEffect(() => {
+    const backAction = () => {
+      setSelectedNote(null)
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);
 
   return (
     <View style={styles.container}>
