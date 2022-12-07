@@ -43,8 +43,6 @@ const styles = StyleSheet.create({
         minHeight: '100%',
     },
     innerContainer: {
-    //   flex: 1,
-    //   height: '100%',
       flexDirection: 'row', 
       flexWrap: 'wrap', 
       justifyContent: 'space-between'

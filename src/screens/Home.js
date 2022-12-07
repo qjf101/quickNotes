@@ -6,6 +6,7 @@ import * as SQLite from 'expo-sqlite';
 import { TabBar } from "../components/TabBar";
 import Search from "./Search";
 import EditNote from "./EditNote";
+import Options from "./Options";
 
 const Home = () => {
 
@@ -107,6 +108,9 @@ const Home = () => {
             <>
               { tab == 'search' ?
                 <Search notes={notes} setTab={setTab}/>
+              :
+              tab == 'options' ?
+                <Options setTab={setTab} notes={notes}/>
               :
                 <>
                   <TopMenu sort={sort} setSort={setSort} view={view} setView={setView}/>

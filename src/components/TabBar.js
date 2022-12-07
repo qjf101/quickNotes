@@ -19,7 +19,7 @@ export const TabBar = ({tab, setTab, setSelectedNote}) => {
                 icon = 'ios-search-outline';
                 size = 25;
                 break;
-            case 'settings':
+            case 'options':
                 icon = 'ios-menu-sharp';
                 size = 25;
                 break;
@@ -101,7 +101,7 @@ export const TabBar = ({tab, setTab, setSelectedNote}) => {
                         position="LEFT"
                     >{buttonScreen1}</CurvedBottomBar.Screen>
                     <CurvedBottomBar.Screen
-                        name="settings"
+                        name="options"
                         position="RIGHT"
                     >{buttonScreen2}</CurvedBottomBar.Screen>
                     <CurvedBottomBar.Screen
