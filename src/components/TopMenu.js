@@ -5,32 +5,11 @@ import SortModal from "./modals/SortModal";
 import ViewModal from "./modals/ViewModal";
 import { useState } from "react";
 
-const TopMenu = ({sort, setSort, view, setView}) => {
+const TopMenu = ({sort, setSort, view, setView, palette}) => {
   const [sortModal, setSortModal] = useState(false);
   const [viewModal, setViewModal] = useState(false);
 
-  return (
-    <View style={styles.container}>
-        <Text style={styles.logo}>QuickNotes</Text>
-        <View style={styles.buttonContainer}>
-            <SortButton 
-                onPress={() => setSortModal(!sortModal)} 
-                color={sortModal ? "red" : "grey"}
-            />
-            <ViewButton 
-                onPress={() => setViewModal(!viewModal)} 
-                color={viewModal ? "red" : "grey"}
-            />
-            <SortModal visible={sortModal} setSortModal={setSortModal} sort={sort} setSort={setSort}/>
-            <ViewModal visible={viewModal} setViewModal={setViewModal} view={view} setView={setView}/>
-        </View>
-    </View>
-  );
-}
-
-export default TopMenu;
-
-const styles = StyleSheet.create({
+  const styles = StyleSheet.create({
     container: {
       height: '8%',
       backgroundColor: 'white',
@@ -43,11 +22,32 @@ const styles = StyleSheet.create({
     },
     logo: {
         fontSize: 24,
-        color: 'red'
+        color: palette.primary
     },
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: '20%'
     }
-});
+  });
+
+  return (
+    <View style={styles.container}>
+        <Text style={styles.logo}>QuickNotes</Text>
+        <View style={styles.buttonContainer}>
+            <SortButton 
+                onPress={() => setSortModal(!sortModal)} 
+                color={sortModal ? palette.primary : "grey"}
+            />
+            <ViewButton 
+                onPress={() => setViewModal(!viewModal)} 
+                color={viewModal ? palette.primary : "grey"}
+            />
+            <SortModal visible={sortModal} setSortModal={setSortModal} sort={sort} setSort={setSort} palette={palette}/>
+            <ViewModal visible={viewModal} setViewModal={setViewModal} view={view} setView={setView} palette={palette}/>
+        </View>
+    </View>
+  );
+}
+
+export default TopMenu;

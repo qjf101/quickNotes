@@ -2,14 +2,14 @@ import { View, Text, Modal, StyleSheet, TouchableOpacity, Pressable } from "reac
 import { FontAwesome } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
-function SortModal({visible, setSortModal, sort, setSort}) {
+function SortModal({visible, setSortModal, sort, setSort, palette}) {
   const listItems = ['Modified Time', 'Created Time', 'Alphabetically'];
 
   const ListItem = ({text, onPress, selected}) => {
     return (
-      <Pressable onPress={onPress} style={[styles.listItem, {backgroundColor: selected ? 'pink' : 'white'}]}>
+      <Pressable onPress={onPress} style={[styles.listItem, {backgroundColor: selected ? palette.secondary : 'white'}]}>
         <Text style={styles.listItemText}>{text}</Text>
-        {selected ? <AntDesign name="checkcircleo" size={20} color="red" /> : <></>}
+        {selected ? <AntDesign name="checkcircleo" size={20} color={palette.primary} /> : <></>}
       </Pressable>
     )
   };

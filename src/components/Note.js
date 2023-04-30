@@ -1,9 +1,39 @@
 import { Pressable, Text, StyleSheet, View } from "react-native";
 import dayjs from "dayjs";
 
-const Note = ({onPress, noteContent, view, color, accentColor}) => {
+const Note = ({onPress, noteContent, view, palette}) => {
     const modifiedToday = dayjs(noteContent.modified).format('MMM DD YYYY') == dayjs().format('MMM DD YYYY');
     const modifiedThisYear = dayjs(noteContent.modified).format('YYYY') == dayjs().format('YYYY');
+    console.log('>>>>>>>>>' + palette)
+
+    const styles = StyleSheet.create({
+        note: {
+            borderRadius: 5,
+            padding: '6%',
+            marginBottom: '2.5%',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            backgroundColor: palette.secondary
+        },
+        grid: {
+            padding: '3%',
+            // height: '20%',
+            height: 150,
+            width: '49%',
+        },
+        titleContainer: {
+            maxWidth: '65%'
+        },
+        noteText: {
+            fontSize: 15,
+            fontWeight: 'bold',
+        },
+        noteDate: {
+            fontSize: 14,
+            color: palette.primary
+        }
+    });
+    
     return (
         <Pressable onPress={onPress} style={[styles.note, view == 'Grid' ? styles.grid : {}]}>
             <View style={view == 'Grid' ? {} : styles.titleContainer}>
@@ -30,31 +60,3 @@ const Note = ({onPress, noteContent, view, color, accentColor}) => {
 }
 
 export default Note;
-
-const styles = StyleSheet.create({
-    note: {
-        borderRadius: 5,
-        padding: '6%',
-        marginBottom: '2.5%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor: 'pink'
-    },
-    grid: {
-        padding: '3%',
-        // height: '20%',
-        height: 150,
-        width: '49%',
-    },
-    titleContainer: {
-        maxWidth: '65%'
-    },
-    noteText: {
-        fontSize: 15,
-        fontWeight: 'bold',
-    },
-    noteDate: {
-        fontSize: 14,
-        color: 'red'
-    }
-});

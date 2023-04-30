@@ -1,13 +1,13 @@
 import { View, Text, Modal, StyleSheet, TouchableOpacity, Pressable } from "react-native";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-function ViewModal({visible, setViewModal, view, setView}) {
+function ViewModal({visible, setViewModal, view, setView, palette}) {
   const listItems = ['List', 'Grid',];
   
   const ListItem = ({text, onPress, selected, icon}) => {
     return (
-      <Pressable onPress={onPress} style={[styles.listItem, {backgroundColor: selected ? 'pink' : 'white'}]}>
-        <MaterialCommunityIcons name={icon} size={28} color="red" />
+      <Pressable onPress={onPress} style={[styles.listItem, {backgroundColor: selected ? palette.secondary : 'white'}]}>
+        <MaterialCommunityIcons name={icon} size={28} color={palette.primary} />
         <Text style={styles.listItemText}>{text}</Text>
       </Pressable>
     )

@@ -6,7 +6,7 @@ import DeleteNoteModal from "../components/modals/DeleteNoteModal";
 import * as FileSystem from 'expo-file-system';
 import { StorageAccessFramework } from 'expo-file-system';
 
-function EditNote({selectedNote, setSelectedNote, create, update, deleteNote}) {
+function EditNote({selectedNote, setSelectedNote, create, update, deleteNote, palette}) {
   const {id} = selectedNote;
   const [title, setTitle] = useState(selectedNote.title);
   const [body, setBody] = useState(selectedNote.body);
@@ -75,14 +75,14 @@ function EditNote({selectedNote, setSelectedNote, create, update, deleteNote}) {
     <View style={styles.container}>
       <View style={styles.nav}>
         { editing ?
-        <Ionicons name="ios-checkmark-sharp" size={26} color="red" onPress={()=>handleSave()}/>
+        <Ionicons name="ios-checkmark-sharp" size={26} color={palette.primary} onPress={()=>handleSave()}/>
         :
-        <Ionicons name="ios-arrow-back-sharp" size={26} color="red" onPress={()=>setSelectedNote(null)}/>
+        <Ionicons name="ios-arrow-back-sharp" size={26} color={palette.primary} onPress={()=>setSelectedNote(null)}/>
         }
         <View style={styles.buttonContainer}>
-          <Ionicons name="ios-share-outline" size={26} color="red" onPress={exportFile}/>
-          {/* <Ionicons name="ios-ellipsis-horizontal-sharp" size={24} color="red" /> */}
-          <Ionicons name="ios-trash-outline" size={26} color="red" onPress={()=>setDeleteModal(!deleteModal)}/>
+          <Ionicons name="ios-share-outline" size={26} color={palette.primary} onPress={exportFile}/>
+          {/* <Ionicons name="ios-ellipsis-horizontal-sharp" size={24} color={palette.primary} /> */}
+          <Ionicons name="ios-trash-outline" size={26} color={palette.primary} onPress={()=>setDeleteModal(!deleteModal)}/>
         </View>
       </View>
       <Text style={styles.date}>

@@ -3,7 +3,7 @@ import NotesContainer from "../components/NotesContainer";
 import { useEffect, useState } from "react";
 import { BackHandler } from "react-native";
 
-const Search = ({notes, setTab}) => {
+const Search = ({notes, setTab, palette}) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [returnedNotes, setReturnedNotes] = useState([]);
   const [noResults, setNoResults] = useState(false);
@@ -46,7 +46,7 @@ const Search = ({notes, setTab}) => {
   return (
     <>
         <SearchBar setTab={setTab} searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
-        <NotesContainer notes={returnedNotes} view={'List'} noResults={noResults}/>
+        <NotesContainer notes={returnedNotes} view={'List'} noResults={noResults} palette={palette}/>
     </>
   );
 }

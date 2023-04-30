@@ -1,10 +1,12 @@
-import { useEffect } from "react";
-import { View, Text, BackHandler, StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
+import { View, Text, BackHandler, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import * as FileSystem from 'expo-file-system';
 import { StorageAccessFramework } from 'expo-file-system';
+import ThemeModal from "../components/modals/ThemeModal";
 
-const Options = ({ setTab, notes }) => {
+const Options = ({ setTab, notes, theme, setTheme, palette, savePalette }) => {
+  const [themeModal, setThemeModal] = useState(false);
 
   useEffect(() => {
     const backAction = () => {
@@ -50,23 +52,24 @@ const Options = ({ setTab, notes }) => {
     <>  
         <View style={styles.container}>
             <View style={styles.titleContainer}>
-                <Text style={styles.title}>Options</Text>
+                <Text style={[styles.title, {color: palette.primary}]}>Options</Text>
             </View>
             <View style={styles.buttonContainer}>
-                <View style={styles.iconContainer}>
-                    <Ionicons name="ios-share-outline" size={32} color="red" onPress={exportFiles}/>
+                <Pressable style={styles.iconContainer} onPress={exportFiles} hitSlop={20}>
+                    <Ionicons name="ios-share-outline" size={32} color={palette.primary}/>
                     <Text style={styles.iconText}>Export</Text>
-                </View>
-                <View style={styles.iconContainer}>
-                    <Ionicons name="ios-color-palette-outline" size={32} color="red"/>
+                </Pressable>
+                <Pressable style={styles.iconContainer} onPress={() => setThemeModal(!themeModal)} hitSlop={20}>
+                    <Ionicons name="ios-color-palette-outline" size={32} color={palette.primary}/>
                     <Text style={styles.iconText}>Theme</Text>
-                </View>
-                <View style={styles.iconContainer}>
-                    <Ionicons name="ios-file-tray-full-outline" size={32} color="red"/>
+                </Pressable>
+                <Pressable style={styles.iconContainer}>
+                    <Ionicons name="ios-file-tray-full-outline" size={32} color={palette.primary}/>
                     <Text style={styles.iconText}>Archive</Text>
-                </View>
+                </Pressable>
             </View>
         </View>
+        <ThemeModal visible={themeModal} setThemeModal={setThemeModal} theme={theme} setTheme={setTheme} savePalette={savePalette}/>
     </>
   );
 }
@@ -90,8 +93,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
     },
     title: {
-        fontSize: 24,
-        color: 'red'
+        fontSize: 24
     },
     buttonContainer: {
         flexDirection: 'row',

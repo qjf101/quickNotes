@@ -9,7 +9,7 @@ import { CurvedBottomBar } from 'react-native-curved-bottom-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 
-export const TabBar = ({tab, setTab, setSelectedNote}) => {
+export const TabBar = ({tab, setTab, setSelectedNote, palette}) => {
     const _renderIcon = (routeName, selectedTab) => {
         let icon = '';
         let size;
@@ -32,7 +32,7 @@ export const TabBar = ({tab, setTab, setSelectedNote}) => {
             <Ionicons
                 name={icon}
                 size={size}
-                color={routeName === tab ? 'red' : 'gray'}
+                color={routeName === tab ? palette.primary : 'gray'}
             />
         );
     };
@@ -67,6 +67,44 @@ export const TabBar = ({tab, setTab, setSelectedNote}) => {
     const blank = () => {
         return <></>
     }
+
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            padding: 20,
+        },
+        button: {
+            marginVertical: 5,
+        },
+        bottomBar: {},
+        btnCircle: {
+            width: 60,
+            height: 60,
+            borderRadius: 35,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: palette.primary,
+            padding: 10,
+            shadowColor: '#000',
+            shadowOffset: {
+                width: 0,
+                height: 0.5,
+            },
+            shadowOpacity: 0.2,
+            shadowRadius: 1.41,
+            elevation: 1,
+            bottom: 30,
+        },
+        imgCircle: {
+            width: 30,
+            height: 30,
+            tintColor: 'gray',
+        },
+        img: {
+            width: 30,
+            height: 30,
+        },
+    });
 
     return (
         <View style={{ flex: 1 }}>
@@ -113,41 +151,3 @@ export const TabBar = ({tab, setTab, setSelectedNote}) => {
         </View>
     );
 };
-
-export const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 20,
-    },
-    button: {
-        marginVertical: 5,
-    },
-    bottomBar: {},
-    btnCircle: {
-        width: 60,
-        height: 60,
-        borderRadius: 35,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'red',
-        padding: 10,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 0.5,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 1.41,
-        elevation: 1,
-        bottom: 30,
-    },
-    imgCircle: {
-        width: 30,
-        height: 30,
-        tintColor: 'gray',
-    },
-    img: {
-        width: 30,
-        height: 30,
-    },
-});

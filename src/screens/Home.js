@@ -7,6 +7,7 @@ import { TabBar } from "../components/TabBar";
 import Search from "./Search";
 import EditNote from "./EditNote";
 import Options from "./Options";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = () => {
 
@@ -27,12 +28,39 @@ const Home = () => {
   
   const db = openDatabase();
 
+  const savePalette = async (palette) => {
+    setPalette(palette)
+    try {
+      const jsonValue = JSON.stringify(palette)
+      await AsyncStorage.setItem('@app_palette', jsonValue)
+    } catch (e) {
+        console.log(e)
+    }
+  }
+
+
+  const loadPalette = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('@app_palette')
+      if (!palette) setPalette(JSON.parse(jsonValue))
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch(e) {
+        console.log(e)
+    }
+  }
+
+  useEffect(() => {
+    loadPalette()
+  }, [])
+
   const [forceUpdate, forceUpdateId] = useForceUpdate();
   const [notes, setNotes] = useState(null);
   const [selectedNote, setSelectedNote] = useState(null);
   const [sort, setSort] = useState('Modified Time');
   const [view, setView] = useState('List');
   const [tab, setTab] = useState('blank');
+  const [theme, setTheme] = useState(0);
+  const [palette, setPalette] = useState(null);
 
   const sortOptions = {
     'Modified Time': 'modified DESC',
@@ -102,23 +130,29 @@ const Home = () => {
 
   return (
       <View style={styles.home}>
-          { selectedNote ?
-            <EditNote selectedNote={selectedNote} setSelectedNote={setSelectedNote} create={create} update={update} deleteNote={deleteNote}/>
-            :
+          {palette ?
             <>
-              { tab == 'search' ?
-                <Search notes={notes} setTab={setTab}/>
+            { selectedNote ?
+              <EditNote selectedNote={selectedNote} setSelectedNote={setSelectedNote} create={create} update={update} deleteNote={deleteNote} palette={palette}/>
               :
-              tab == 'options' ?
-                <Options setTab={setTab} notes={notes}/>
-              :
-                <>
-                  <TopMenu sort={sort} setSort={setSort} view={view} setView={setView}/>
-                  <NotesContainer notes={notes} view={view} setSelectedNote={setSelectedNote}/>
-                </>  
-              }
-              <TabBar tab={tab} setTab={setTab} setSelectedNote={setSelectedNote}/>
+              <>
+                { tab == 'search' ?
+                  <Search notes={notes} setTab={setTab} palette={palette}/>
+                :
+                tab == 'options' ?
+                  <Options setTab={setTab} notes={notes} theme={theme} setTheme={setTheme} palette={palette} savePalette={savePalette}/>
+                :
+                  <>
+                    <TopMenu sort={sort} setSort={setSort} view={view} setView={setView} palette={palette}/>
+                    <NotesContainer notes={notes} view={view} setSelectedNote={setSelectedNote} palette={palette}/>
+                  </>  
+                }
+                <TabBar tab={tab} setTab={setTab} setSelectedNote={setSelectedNote} palette={palette}/>
+              </>
+            }
             </>
+            :
+            <></>
           }
       </View>
   )
